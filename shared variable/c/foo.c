@@ -9,11 +9,17 @@ int i = 0;
 // Note the return type: void*
 void* incrementingThreadFunction(){
     // TODO: increment i 1_000_000 times
+    for (int j = 0; j < 1000000; j++) {
+        i++;
+    }
     return NULL;
 }
 
 void* decrementingThreadFunction(){
     // TODO: decrement i 1_000_000 times
+    for (int j = 0; j < 1000000; j++) {
+        i--;
+    }
     return NULL;
 }
 
@@ -25,7 +31,25 @@ int main(){
     
     // TODO:
     // wait for the two threads to be done before printing the final result
-    // Hint: Use `pthread_join`    
+    // Hint: Use `pthread_join`  
+
+    pthread_t cThread1;
+    pthread_t cThread2;
+      
+    if (pthread_create(&cThread1, NULL, &incrementingThreadFunction, NULL)) {
+        printf("Error creating thread");
+    }
+
+    if (pthread_create(&cThread2, NULL, &decrementingThreadFunction, NULL)) {
+        printf("Error creating thread");
+    }
+
+    pthread_join(cThread1, NULL);
+    pthread_join(cThread2, NULL);
+
+    
+
+
     
     printf("The magic number is: %d\n", i);
     return 0;
